@@ -1,0 +1,164 @@
+    {% extends "users/base.html" %}
+    {% load static i18n %}
+    {% block title %}{% trans 'Dashboard' %}{% endblock %}
+    {% load sum_tags %}
+
+
+    {% block content %}
+    <!-- partial -->
+    <div class="main-wrapper mdc-drawer-app-content">
+      <div class="page-wrapper mdc-toolbar-fixed-adjust">
+        <main style="background: white; padding-top: 0" class="content-wrapper">
+          <div class="mdc-layout-grid">
+            <div class="mdc-layout-grid__inner">
+              <div style="height: 140px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+                <div class="mdc-card text-white info-card info-card--danger" style="background: #14bbce;">
+                  <div style="margin-right: 0%" class="card-inner">
+                    <h5 class="card-title"><strong>{% trans "Traditional Income" %} </strong> </h5>
+                    <h5 style="" class="font-weight-light pb-2 mb-1">$ {{ ret|floatformat:2 }}</h5>
+                    <p class="tx-10">Paid: {{ request.user.traditional_withdrawal|floatformat:2 }}</p>
+                </div>
+              </div>
+            </div>
+         <div style="height: 140px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+          <div class="mdc-card text-white info-card info-card--danger" style=" background: #333333;">
+            <div class="card-inner">
+              <h5 style="" class="card-title"><strong> {% trans "Wallet Balance" %} </strong> </h5>
+              <h5 style="" class="font-weight-light pb-2 mb-1">$ {{ request.user.wallet|add:request.user.c|floatformat:2 }}</h5>
+              <p style="line-height: 1" class="tx-10">Payable $ {{ request.user.wallet|floatformat:2 }} <br/> Paid $ {{ request.user.withdrawal|floatformat:2 }}</p>
+              <p style="line-height: 1" class="tx-10">Service $ {{ request.user.c }}</p>
+              <div style="background: transparent; box-shadow: 0 0 10px 5px rgb(255 66 15 / 0%);" class="card-icon-wrapper">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="height: 140px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+          <div style="background-color: #14bbce;" class="mdc-card text-white info-card info-card--danger">
+            <div>
+              <h5 style="" class="card-title"><strong>{% trans "My Package" %} </strong> </h5>
+              <h5 style="" class="font-weight-light pb-2 mb-1">{% if amount != 'None' %}$ {{ amount.level.amount }}{% endif %}</h5>
+              {% if amount.ccm_ends != 'gone' and amount.ccm_ends != 'not active' %}<p style="line-height: 1" class="tx-10">{{ amount.ccm_ends|timeuntil }} left to be CCM</p>{% endif %}
+              {% if amount.plan_ends != 'gone' and amount.plan_ends != 'not active' %}<p style="line-height: 1" class="tx-10">{{ amount.plan_ends|timeuntil }} left in current Plan</p>{% endif %}
+          </div> 
+        </div> 
+      </div>
+      <div style="height: 140px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+          <div class="mdc-card text-white info-card info-card--danger" style="background: #333333;">
+            <div class="card-inner">
+              <h5 style="" class="card-title"><strong>{% trans "Total Business" %} </strong> </h5>
+              <h5 style="" class="font-weight-light pb-2 mb-1"  id="tot_lev">{% if amount != 'None' %}$ {{ business.1|add:business.2|add:business.3|add:business.4|add:business.5|add:business.6|add:business.7|add:business.8 }}{% endif %}</h5>
+          </div>
+        </div>
+      </div><!-- 
+      <div style="height: 140px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+          <div class="mdc-card bg-warning text-white info-card info-card--danger">
+            <div class="card-inner">
+              <h5 style="" class="card-title"><strong>Total Shopping Income </strong> </h5>
+              <h5 style="" class="font-weight-light pb-2 mb-1" id="tot_shop">$ 0</h5>
+          </div>
+        </div>
+      </div>
+      <div style="height: 140px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+          <div class="mdc-card bg-secondary text-white info-card info-card--danger">
+            <div class="card-inner">
+              <h5 style="" class="card-title"><strong>Total Shopping Team </strong> </h5>
+              <h5 style="" class="font-weight-light pb-2 mb-1">0</h5>
+          </div>
+        </div>
+      </div>
+      <div style="height: 140px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+          <div class="mdc-card bg-primary text-white info-card info-card--danger">
+            <div class="card-inner">
+              <h5 style="" class="card-title"><strong>Total Prime Earnings </strong> </h5>
+              <h5 style="" class="font-weight-light pb-2 mb-1">$ 00.00</h5>
+          </div>
+        </div>
+      </div>
+      <div style="height: 140px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+          <div class="mdc-card bg-warning text-white info-card info-card--danger">
+            <div class="card-inner">
+              <h5 style="" class="card-title"><strong>Total Prime Team </strong> </h5>
+              <h5 style="" class="font-weight-light pb-2 mb-1">00</h5>
+          </div>
+        </div>
+      </div> -->
+      <!-- 
+    <div style="height: 140px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+      <div class="mdc-card bg-success text-white info-card info-card--success">
+        <div class="card-inner">
+          <h5 style="" class="card-title"><strong>Today's Earning</strong> </h5>
+          <h5 style="" class="font-weight-light pb-2 mb-1"> $ {{ user.today_binary_income }}</h5>
+          <p style="line-height: 1" class="tx-10">Will be updated in <span id='time'></span>!</p>
+          <div class="card-icon-wrapper" style="background-color: #ffffff;
+          box-shadow: 0 0 10px 5px rgb(255 255 255 / 35%);">
+          <img width="60px;" src="https://img.icons8.com/cute-clipart/64/000000/economic-improvement.png"/>
+        </div> 
+      </div>
+    </div>
+    </div> -->
+    <!-- 
+    <div style="height: 140px;" class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+      <div class="mdc-card bg-success text-white info-card info-card--info">
+        <div class="card-inner">
+          <h5 style="" class="card-title"><strong> Prime User</strong> </h5>
+          <h5 style="" class="font-weight-light pb-2 mb-1"> $ {{ amount }}</h5>
+          <p style="line-height: 1" class="tx-10">Weekly Capping : ${{ capping_limit }}</p>
+          <div class="card-icon-wrapper" style="background-color: #ffffff;
+          box-shadow: 0 0 10px 5px rgb(255 255 255 / 35%);">
+          <img width="60px" src="https://img.icons8.com/fluent/96/000000/office.png"/>
+        </div>
+      </div>
+    </div>
+    </div> --><!-- 
+    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-4-tablet">
+      <div class="mdc-card bg-white text-white">
+        <div class="d-flex justify-content-between">
+          <h3 style="color: black; font-size: 20px" >Recent transactions</h3><br>
+          <p style="line-height: 1" class="tx-10"></p>
+        </div>
+        <div style="overflow-x: visible;" class="table-responsive">
+          <table class="table dashboard-table">
+            <tbody>
+              {% for r in recent %}
+              {% if r.type == 'hidden' %}
+              {% else %}
+              <tr>
+                <td style="padding-top: 20px; font-size: 12px;">{{r.comment}}<p style="color: grey; font-size: 8px;">{{r.created_at}}
+                  <span style="{% if r.type == 'credit' %}color: green;{% else %}color: red;{% endif %} font-size: 12px; float: right;" ><strong>{% if r.type == 'credit' %}+{% else %}-{% endif %}  ${{r.amount|floatformat:2}}</strong></span></p></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-4-tablet">
+      <div class="mdc-card bg-white text-white">
+        <div class="d-flex justify-content-between">
+          <h3 style="color: black; font-size: 20px" >Large transactions</h3><br>
+          <p style="line-height: 1" class="tx-10"></p>
+        </div>
+        <div style="overflow-x: visible;" class="table-responsive">
+          <table class="table dashboard-table">
+            <tbody>
+              {% for r in large %}
+              {% if r.type == 'hidden' %}
+              {% else %}
+              <tr>
+                <td style="padding-top: 20px; font-size: 12px;">{{r.comment}}<p style="color: grey; font-size: 8px;">{{r.created_at}}
+                  <span style="{% if r.type == 'credit' %}color: green;{% else %}color: red;{% endif %} font-size: 12px; float: right;" ><strong>{% if r.type == 'credit' %}+{% else %}-{% endif %}  ${{r.amount|floatformat:2}}</strong></span></p></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    </div>
+    </main>
+    </div>
+    </div>
+    {% endblock content %}
